@@ -89,6 +89,32 @@ Then:
    ```
 4. Drag and drop `zen-bookmarks.xpi` onto the browser window, or go to `about:addons` → gear icon → **Install Add-on From File**
 
+### Uninstalling
+
+**Temporary install (Option A or B):**
+
+1. Go to `about:debugging#/runtime/this-firefox`
+2. Find **Zen Bookmarks** in the list
+3. Click **Remove**
+
+Or simply restart the browser — temporary add-ons don't persist.
+
+**Permanent install (Option C):**
+
+1. Go to `about:addons`
+2. Find **Zen Bookmarks**
+3. Click the `…` menu → **Remove**
+
+**Clean up stored metadata** (optional — colors, custom icons, collapsed states):
+
+Before removing the extension, open its options page and click **Reset all colors & icons**. Otherwise the metadata sits in `browser.storage.local` until cleared. Browser bookmarks themselves are untouched by uninstalling — they live in Firefox's native bookmark store.
+
+**Delete the cloned repo:**
+
+```bash
+rm -rf zenBookmarks
+```
+
 ### Updating
 
 To pull the latest changes after a previous clone:
