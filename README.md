@@ -28,16 +28,26 @@ Ported from the [obsidianBookmarks](https://github.com/BlackCursive/obsidianBook
 
 ### Option A: Load Prebuilt (Development Mode)
 
-The `dist/` folder contains prebuilt files. Load the extension without building:
+The `dist/` folder is committed to the repo, so no build step is required.
+
+```bash
+# Clone the repository
+git clone https://github.com/BlackCursive/zenBookmarks.git
+cd zenBookmarks
+```
+
+Then load it in the browser:
 
 1. Open Zen Browser and navigate to `about:debugging#/runtime/this-firefox`
 2. Click **Load Temporary Add-on…**
-3. Navigate to the project root and select `manifest.json`
+3. Navigate to the cloned `zenBookmarks/` folder and select `manifest.json`
 4. The **Zen Bookmarks** panel will appear in your sidebar
 
 > **Note:** Temporary add-ons are removed when the browser restarts. For a persistent install, see Option C below.
 
 ### Option B: Build from Source
+
+For development, or to make changes before loading:
 
 ```bash
 # Clone the repository
@@ -51,7 +61,7 @@ npm install
 npm run build
 ```
 
-Then load `manifest.json` via `about:debugging` as described in Option A.
+Then load `manifest.json` via `about:debugging` as described in Option A (steps 1–4).
 
 **Development mode** (watch for changes):
 
@@ -61,16 +71,38 @@ npm run dev
 
 ### Option C: Permanent Installation (Unsigned)
 
-Firefox-based browsers require signed extensions for permanent install unless you disable signature enforcement:
+Firefox-based browsers require signed extensions for permanent install unless you disable signature enforcement.
+
+```bash
+# Clone the repository
+git clone https://github.com/BlackCursive/zenBookmarks.git
+cd zenBookmarks
+```
+
+Then:
 
 1. Open `about:config` in Zen Browser
 2. Search for `xpinstall.signatures.required` and set it to `false`
 3. Package the extension:
    ```bash
-   cd zenBookmarks
    zip -r zen-bookmarks.xpi manifest.json dist/ sidebar/ options/ icons/ src/
    ```
 4. Drag and drop `zen-bookmarks.xpi` onto the browser window, or go to `about:addons` → gear icon → **Install Add-on From File**
+
+### Updating
+
+To pull the latest changes after a previous clone:
+
+```bash
+cd zenBookmarks
+git pull
+
+# Rebuild only if you used Option B
+npm install
+npm run build
+```
+
+Reload the extension via `about:debugging` → **Reload** next to Zen Bookmarks.
 
 ---
 
