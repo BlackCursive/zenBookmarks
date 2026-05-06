@@ -12,6 +12,7 @@ const ctx = await esbuild.context({
   format: 'esm',
   target: 'es2020',
   outdir: 'dist',
+  entryNames: '[name]',
   logLevel: 'info',
   sourcemap: prod ? false : 'inline',
   treeShaking: true,
