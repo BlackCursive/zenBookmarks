@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Zen Bookmarks",
+  "version": "1.0.0",
+  "description": "Sidebar bookmark panel with grouped, color-coded, collapsible sections",
+  "permissions": ["bookmarks", "storage"],
+  "sidebar_action": {
+    "default_panel": "sidebar/sidebar.html",
+    "default_title": "Zen Bookmarks",
+    "default_icon": {
+      "48": "icons/icon-48.svg"
+    }
+  },
+  "commands": {
+    "_execute_sidebar_action": {
+      "suggested_key": {
+        "default": "Alt+B"
+      },
+      "description": "Toggle Zen Bookmarks sidebar"
+    }
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "browser_style": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "zen-bookmarks",
+  "version": "1.0.0",
+  "description": "Sidebar bookmark panel for Zen Browser",
+  "type": "module",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "9.30.1",
+    "@types/node": "^20.0.0",
+    "@types/webextension-polyfill": "^0.10.7",
+    "esbuild": "0.25.5",
+    "globals": "14.0.0",
+    "jiti": "2.6.1",
+    "tslib": "2.4.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "8.35.1",
+    "vitest": "^2.0.0"
+  },
+  "dependencies": {
+    "lucide": "^0.525.0"
+  }
+}
