@@ -1,0 +1,319 @@
+:root {
+  --text-normal: #c0caf5;
+  --text-muted: #9aa5ce;
+  --text-faint: #565f89;
+  --background-modifier-hover: rgba(255, 255, 255, 0.06);
+  --background-modifier-border: rgba(255, 255, 255, 0.1);
+  --background-primary: #1a1b26;
+  --background-surface: #24283b;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--background-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--text-normal);
+  font-size: 13px;
+  overflow-y: auto;
+}
+
+/* Toolbar */
+.zb-toolbar {
+  display: flex;
+  gap: 6px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.zb-toolbar-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 11.5px;
+  padding: 3px 8px;
+}
+
+.zb-toolbar-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-normal);
+}
+
+/* Bookmark view */
+.ob-bookmark-view { padding: 4px 0; }
+
+/* Group */
+.ob-group { margin-bottom: 2px; }
+
+.ob-group-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px;
+  cursor: pointer;
+  user-select: none;
+  background-color: color-mix(in srgb, var(--group-color) 10%, transparent);
+  width: 100%;
+}
+
+.ob-group-header:hover {
+  background-color: color-mix(in srgb, var(--group-color) 18%, transparent);
+}
+
+.ob-chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.ob-group-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ob-group-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-normal);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ob-group-count { font-size: 10px; color: var(--text-faint); }
+
+/* Bookmark list */
+.ob-bookmark-list { padding: 2px 0 4px 0; }
+
+.ob-bookmark-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px 4px 30px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  width: 100%;
+}
+
+.ob-bookmark-item:hover {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.ob-bookmark-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0.75;
+}
+
+.ob-bookmark-icon img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  border-radius: 2px;
+  filter: grayscale(1) opacity(0.55);
+}
+
+.ob-bookmark-item:hover .ob-bookmark-icon img { filter: grayscale(0.2) opacity(0.9); }
+.ob-bookmark-item:hover .ob-bookmark-icon { opacity: 1; }
+
+.ob-bookmark-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* Ungrouped section */
+.ob-ungrouped-divider {
+  border-top: 1px solid var(--background-modifier-border);
+  margin: 6px 0 4px;
+  padding-top: 4px;
+  min-height: 8px;
+}
+
+/* Context menu */
+.zb-context-menu {
+  position: fixed;
+  z-index: 9999;
+  background: var(--background-surface);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  padding: 4px 0;
+  list-style: none;
+  margin: 0;
+  min-width: 160px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.zb-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--text-normal);
+}
+
+.zb-menu-item:hover { background: var(--background-modifier-hover); }
+
+.zb-menu-sep {
+  height: 1px;
+  background: var(--background-modifier-border);
+  margin: 4px 0;
+}
+
+.zb-menu-icon {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+/* Dialogs */
+.zb-dialog {
+  background: var(--background-surface);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  padding: 20px;
+  color: var(--text-normal);
+  min-width: 280px;
+  max-width: 360px;
+}
+
+.zb-dialog::backdrop { background: rgba(0, 0, 0, 0.5); }
+
+.zb-dialog h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ob-rename-input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-size: 13px;
+  display: block;
+}
+
+.zb-dialog button {
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: 1px solid var(--background-modifier-border);
+  cursor: pointer;
+  font-size: 12.5px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-normal);
+}
+
+button.mod-cta {
+  background: #7aa2f7;
+  color: #1a1b26;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+button.mod-warning {
+  background: #f7768e;
+  color: #1a1b26;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.ob-confirm-row {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* Color picker */
+.ob-color-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.ob-color-swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.1s, border-color 0.1s;
+}
+
+.ob-color-swatch:hover {
+  transform: scale(1.15);
+  border-color: var(--text-normal);
+}
+
+/* Icon picker */
+.ob-icon-search {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-size: 13px;
+  display: block;
+}
+
+.ob-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.ob-icon-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.ob-icon-btn:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.ob-icon-btn svg, .ob-color-swatch svg { pointer-events: none; }
+
+/* SVG icons */
+svg { display: block; }
