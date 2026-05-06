@@ -47,6 +47,7 @@ export function openIconPicker(onChoose: (icon: string) => void): void {
 
   renderGrid();
   document.body.appendChild(dialog);
+  dialog.addEventListener('close', () => dialog.remove());
   dialog.showModal();
   input.focus();
 }

@@ -44,5 +44,6 @@ export function openColorPicker(onChoose: (hex: string) => void): void {
 
   dialog.appendChild(grid);
   document.body.appendChild(dialog);
+  dialog.addEventListener('close', () => dialog.remove());
   dialog.showModal();
 }
