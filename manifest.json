@@ -3,7 +3,7 @@
   "name": "Zen Bookmarks",
   "version": "1.0.0",
   "description": "Sidebar bookmark panel with grouped, color-coded, collapsible sections",
-  "permissions": ["bookmarks", "storage"],
+  "permissions": ["bookmarks", "storage", "tabs"],
   "sidebar_action": {
     "default_panel": "sidebar/sidebar.html",
     "default_title": "Zen Bookmarks",

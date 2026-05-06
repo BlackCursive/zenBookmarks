@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Zen Bookmarks Settings</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #1a1b26;
+      color: #c0caf5;
+      padding: 32px;
+      max-width: 520px;
+    }
+    h1 { font-size: 20px; margin-bottom: 24px; }
+    h2 { font-size: 14px; color: #9aa5ce; margin: 24px 0 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    p { font-size: 13px; color: #9aa5ce; margin: 0 0 12px; }
+    .shortcut-value {
+      display: inline-block;
+      background: #24283b;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 13px;
+      font-family: monospace;
+    }
+    a { color: #7aa2f7; font-size: 13px; }
+    button {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      color: #c0caf5;
+      cursor: pointer;
+      font-size: 13px;
+      padding: 6px 14px;
+      margin-right: 8px;
+    }
+    button:hover { background: rgba(255,255,255,0.1); }
+    #status { font-size: 12px; color: #9ece6a; margin-top: 8px; min-height: 18px; }
+  </style>
+</head>
+<body>
+  <h1>Zen Bookmarks</h1>
+
+  <h2>Keyboard Shortcut</h2>
+  <p>Current shortcut: <span class="shortcut-value" id="shortcut">Loading…</span></p>
+  <p><a href="about:addons" id="addons-link">Change in Add-ons Manager →</a></p>
+
+  <h2>Data</h2>
+  <p>Colors and custom icons are stored separately from your browser bookmarks.</p>
+  <button id="export-btn">Export as Markdown</button>
+  <button id="reset-btn">Reset all colors &amp; icons</button>
+  <div id="status"></div>
+
+  <script type="module" src="../dist/options.js"></script>
+</body>
+</html>
