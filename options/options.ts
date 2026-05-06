@@ -1,8 +1,7 @@
 import { treeToPluginData } from '../src/bookmarkTree';
 import { serializeToMarkdown } from '../src/MarkdownParser';
 import type { MetadataStore } from '../src/BookmarkStore';
-
-const METADATA_KEY = 'zen_bookmarks_metadata';
+import { METADATA_KEY } from '../src/BookmarkStore';
 
 async function init(): Promise<void> {
   const shortcutEl = document.getElementById('shortcut')!;

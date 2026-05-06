@@ -20,6 +20,7 @@ const mockBookmarks = {
   create: vi.fn(),
   update: vi.fn(),
   remove: vi.fn(),
+  removeTree: vi.fn(),
   move: vi.fn(),
   getChildren: vi.fn(),
   onCreated: { addListener: vi.fn() },
@@ -152,14 +153,14 @@ describe('BookmarkStore.deleteGroup', () => {
       { id: 'b1', url: 'https://github.com', title: 'GitHub' },
     ]);
     mockBookmarks.move.mockResolvedValue({});
-    mockBookmarks.remove.mockResolvedValue(undefined);
+    mockBookmarks.removeTree.mockResolvedValue(undefined);
     mockBookmarks.getTree.mockResolvedValue(mockTree([]));
     const store = await makeStore([
       { id: 'f1', title: 'Dev', children: [{ id: 'b1', title: 'GitHub', url: 'https://github.com' }] },
     ]);
     await store.deleteGroup('f1');
     expect(mockBookmarks.move).toHaveBeenCalledWith('b1', { parentId: UNFILED });
-    expect(mockBookmarks.remove).toHaveBeenCalledWith('f1');
+    expect(mockBookmarks.removeTree).toHaveBeenCalledWith('f1');
   });
 });
 

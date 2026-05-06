@@ -9,7 +9,7 @@ export interface NodeMetadata {
 
 export type MetadataStore = Record<string, NodeMetadata>;
 
-const METADATA_KEY = 'zen_bookmarks_metadata';
+export const METADATA_KEY = 'zen_bookmarks_metadata';
 const DEFAULT_PARENT_ID = 'unfiled_____';
 
 export class BookmarkStore {
@@ -97,7 +97,7 @@ export class BookmarkStore {
         .filter(c => !!c.url)
         .map(c => browser.bookmarks.move(c.id, { parentId: DEFAULT_PARENT_ID }))
     );
-    await browser.bookmarks.remove(id);
+    await browser.bookmarks.removeTree(id);
     delete this.metadata[id];
     await this.saveMetadata();
     await this.load();

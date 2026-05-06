@@ -4,10 +4,16 @@ import { BookmarkView } from '../src/BookmarkView';
 const store = new BookmarkStore();
 const root = document.getElementById('root')!;
 
-browser.bookmarks.onCreated.addListener(() => void store.reload());
-browser.bookmarks.onRemoved.addListener(() => void store.reload());
-browser.bookmarks.onChanged.addListener(() => void store.reload());
-browser.bookmarks.onMoved.addListener(() => void store.reload());
+let reloadTimer: ReturnType<typeof setTimeout> | undefined;
+const debouncedReload = () => {
+  clearTimeout(reloadTimer);
+  reloadTimer = setTimeout(() => void store.reload(), 150);
+};
+
+browser.bookmarks.onCreated.addListener(debouncedReload);
+browser.bookmarks.onRemoved.addListener(debouncedReload);
+browser.bookmarks.onChanged.addListener(debouncedReload);
+browser.bookmarks.onMoved.addListener(debouncedReload);
 
 store.load().then(() => {
   new BookmarkView(root, store);
