@@ -113,6 +113,18 @@ body::-webkit-scrollbar { display: none; }
   background-color: var(--zb-bg-hover);
 }
 
+.ob-group-header.zb-dragging {
+  opacity: 0.45;
+}
+
+.ob-group-header.zb-drop-before {
+  box-shadow: inset 0 3px 0 0 var(--zb-accent);
+}
+
+.ob-group-header.zb-drop-after {
+  box-shadow: inset 0 -3px 0 0 var(--zb-accent);
+}
+
 .ob-chevron {
   width: 14px;
   height: 14px;

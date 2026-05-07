@@ -202,6 +202,37 @@ export class BookmarkView {
       ]);
     });
 
+    header.draggable = true;
+    header.dataset['groupId'] = group.id;
+    header.addEventListener('dragstart', (e) => {
+      e.dataTransfer?.setData('application/x-zb-group', group.id);
+      if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move';
+      header.classList.add('zb-dragging');
+    });
+    header.addEventListener('dragend', () => header.classList.remove('zb-dragging'));
+    header.addEventListener('dragover', (e) => {
+      const draggedId = e.dataTransfer?.types.includes('application/x-zb-group');
+      if (!draggedId) return;
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+      const rect = header.getBoundingClientRect();
+      const after = e.clientY > rect.top + rect.height / 2;
+      header.classList.toggle('zb-drop-before', !after);
+      header.classList.toggle('zb-drop-after', after);
+    });
+    header.addEventListener('dragleave', () => {
+      header.classList.remove('zb-drop-before', 'zb-drop-after');
+    });
+    header.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const draggedId = e.dataTransfer?.getData('application/x-zb-group');
+      header.classList.remove('zb-drop-before', 'zb-drop-after');
+      if (!draggedId || draggedId === group.id) return;
+      const rect = header.getBoundingClientRect();
+      const after = e.clientY > rect.top + rect.height / 2;
+      void this.store.moveGroup(draggedId, group.id, after ? 'after' : 'before');
+    });
+
     groupEl.appendChild(header);
 
     if (!group.collapsed) {

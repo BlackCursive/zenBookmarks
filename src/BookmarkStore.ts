@@ -132,6 +132,18 @@ export class BookmarkStore {
     this.notify();
   }
 
+  async moveGroup(draggedId: string, targetId: string, position: 'before' | 'after'): Promise<void> {
+    const [target] = await browser.bookmarks.get(targetId);
+    if (!target || target.index === undefined) return;
+    const newIndex = position === 'after' ? target.index + 1 : target.index;
+    await browser.bookmarks.move(draggedId, {
+      parentId: target.parentId ?? DEFAULT_PARENT_ID,
+      index: newIndex,
+    });
+    await this.load();
+    this.notify();
+  }
+
   async deleteBookmark(id: string): Promise<void> {
     await browser.bookmarks.remove(id);
     delete this.metadata[id];

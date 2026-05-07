@@ -17,6 +17,7 @@ function mockTree(children: any[] = []) {
 
 const mockBookmarks = {
   getTree: vi.fn(),
+  get: vi.fn(),
   create: vi.fn(),
   update: vi.fn(),
   remove: vi.fn(),
@@ -237,6 +238,34 @@ describe('BookmarkStore.moveBookmark', () => {
     const store = await makeStore();
     await store.moveBookmark('b1', null);
     expect(mockBookmarks.move).toHaveBeenCalledWith('b1', { parentId: UNFILED });
+  });
+});
+
+describe('BookmarkStore.moveGroup', () => {
+  it('moves to target index when position is before', async () => {
+    mockBookmarks.get.mockResolvedValue([{ id: 'g2', index: 2, parentId: UNFILED }]);
+    mockBookmarks.move.mockResolvedValue({});
+    mockBookmarks.getTree.mockResolvedValue(mockTree([]));
+    const store = await makeStore();
+    await store.moveGroup('g1', 'g2', 'before');
+    expect(mockBookmarks.move).toHaveBeenCalledWith('g1', { parentId: UNFILED, index: 2 });
+  });
+
+  it('moves to target index + 1 when position is after', async () => {
+    mockBookmarks.get.mockResolvedValue([{ id: 'g2', index: 2, parentId: UNFILED }]);
+    mockBookmarks.move.mockResolvedValue({});
+    mockBookmarks.getTree.mockResolvedValue(mockTree([]));
+    const store = await makeStore();
+    await store.moveGroup('g1', 'g2', 'after');
+    expect(mockBookmarks.move).toHaveBeenCalledWith('g1', { parentId: UNFILED, index: 3 });
+  });
+
+  it('skips move when target is missing', async () => {
+    mockBookmarks.get.mockResolvedValue([]);
+    mockBookmarks.getTree.mockResolvedValue(mockTree([]));
+    const store = await makeStore();
+    await store.moveGroup('g1', 'missing', 'before');
+    expect(mockBookmarks.move).not.toHaveBeenCalled();
   });
 });
 
