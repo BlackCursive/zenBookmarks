@@ -320,6 +320,8 @@ export class BookmarkView {
     const { groups } = this.store.getData();
 
     showContextMenu(e, [
+      { label: 'Open in new tab', icon: 'external-link', onClick: () => { void browser.tabs.create({ url: bookmark.url }); } },
+      'separator' as const,
       { label: 'Rename', icon: 'pencil', onClick: () => openTextPrompt('Rename bookmark', bookmark.title, (val) => void this.store.renameBookmark(bookmark.id, val)) },
       { label: 'Change icon', icon: 'image', onClick: () => openIconPicker((icon) => void this.store.setBookmarkIcon(bookmark.id, icon)) },
       ...(bookmark.icon !== 'link' ? [{ label: 'Reset to favicon', icon: 'refresh-cw', onClick: () => void this.store.setBookmarkIcon(bookmark.id, 'link') }] : []),
