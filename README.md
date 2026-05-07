@@ -1,6 +1,6 @@
 # Zen Bookmarks
 
-A Firefox WebExtension sidebar panel for [Zen Browser](https://zen-browser.app) that brings grouped, color-coded, collapsible bookmark management to your browser's native bookmark system.
+A Firefox WebExtension sidebar panel for [Zen Browser](https://zen-browser.app) that brings grouped, collapsible, drag-and-drop bookmark management to your browser's native bookmark system.
 
 Ported from the [obsidianBookmarks](https://github.com/BlackCursive/obsidianBookmarks) Obsidian plugin.
 
@@ -8,14 +8,15 @@ Ported from the [obsidianBookmarks](https://github.com/BlackCursive/obsidianBook
 
 ## Features
 
-- **Grouped bookmarks** — organize bookmarks into collapsible, color-coded sections
-- **Full CRUD** — add, rename, delete, and move bookmarks and groups via right-click context menus
-- **Custom icons** — override any bookmark's icon from a searchable Lucide icon library
+- **Grouped bookmarks** — organize bookmarks into collapsible sections (folders in Firefox's native store)
+- **Drag and drop** — reorder groups, move bookmarks between groups, or drop bookmarks into the ungrouped section
+- **Full CRUD** — add, rename, delete bookmarks and groups via right-click context menus
+- **Custom icons** — override any bookmark's icon from a searchable Lucide icon library (~90 icons)
 - **Favicon fallback** — shows site favicons when no custom icon is set
-- **Live sync** — reads and writes directly to Firefox's native bookmark API; no import required
+- **Live sync** — reads and writes directly to Firefox's native bookmark API; changes from elsewhere appear automatically
 - **Markdown export** — export your bookmarks as a `.md` file from the settings page
-- **Keyboard shortcut** — toggle the sidebar with `Alt+B` (customizable)
-- **Tokyo Night theme** — dark UI that fits Zen Browser's aesthetic
+- **Keyboard shortcut** — `Cmd+B` on Mac, `Alt+B` elsewhere (customizable)
+- **Square-UI aesthetic** — square corners, thin borders, JetBrains Mono font, hidden scrollbars; respects Zen's accent color and follows system light/dark mode
 
 ---
 
@@ -24,14 +25,13 @@ Ported from the [obsidianBookmarks](https://github.com/BlackCursive/obsidianBook
 ### Prerequisites
 
 - [Zen Browser](https://zen-browser.app) (or any Firefox-based browser)
-- [Node.js](https://nodejs.org) v18+ and npm (for building from source)
+- [Node.js](https://nodejs.org) v18+ and npm (only required for Option B)
 
 ### Option A: Load Prebuilt (Development Mode)
 
 The `dist/` folder is committed to the repo, so no build step is required.
 
 ```bash
-# Clone the repository
 git clone https://github.com/BlackCursive/zenBookmarks.git
 cd zenBookmarks
 ```
@@ -41,29 +41,24 @@ Then load it in the browser:
 1. Open Zen Browser and navigate to `about:debugging#/runtime/this-firefox`
 2. Click **Load Temporary Add-on…**
 3. Navigate to the cloned `zenBookmarks/` folder and select `manifest.json`
-4. The **Zen Bookmarks** panel will appear in your sidebar
+4. The **Zen Bookmarks** entry will appear in the left sidebar's panel list
 
-> **Note:** Temporary add-ons are removed when the browser restarts. For a persistent install, see Option C below.
+> **Note:** Temporary add-ons are removed when the browser restarts. For a persistent install, see Option C.
 
 ### Option B: Build from Source
 
 For development, or to make changes before loading:
 
 ```bash
-# Clone the repository
 git clone https://github.com/BlackCursive/zenBookmarks.git
 cd zenBookmarks
-
-# Install dependencies
 npm install
-
-# Build the extension
 npm run build
 ```
 
-Then load `manifest.json` via `about:debugging` as described in Option A (steps 1–4).
+Then load `manifest.json` via `about:debugging` (steps 1–4 from Option A).
 
-**Development mode** (watch for changes):
+**Watch mode** (rebuilds on save):
 
 ```bash
 npm run dev
@@ -74,7 +69,6 @@ npm run dev
 Firefox-based browsers require signed extensions for permanent install unless you disable signature enforcement.
 
 ```bash
-# Clone the repository
 git clone https://github.com/BlackCursive/zenBookmarks.git
 cd zenBookmarks
 ```
@@ -85,39 +79,11 @@ Then:
 2. Search for `xpinstall.signatures.required` and set it to `false`
 3. Package the extension:
    ```bash
-   zip -r zen-bookmarks.xpi manifest.json dist/ sidebar/ options/ icons/ src/
+   zip -r zen-bookmarks.xpi manifest.json dist/ sidebar/ options/ icons/ fonts/ src/
    ```
 4. Drag and drop `zen-bookmarks.xpi` onto the browser window, or go to `about:addons` → gear icon → **Install Add-on From File**
 
-### Uninstalling
-
-**Temporary install (Option A or B):**
-
-1. Go to `about:debugging#/runtime/this-firefox`
-2. Find **Zen Bookmarks** in the list
-3. Click **Remove**
-
-Or simply restart the browser — temporary add-ons don't persist.
-
-**Permanent install (Option C):**
-
-1. Go to `about:addons`
-2. Find **Zen Bookmarks**
-3. Click the `…` menu → **Remove**
-
-**Clean up stored metadata** (optional — colors, custom icons, collapsed states):
-
-Before removing the extension, open its options page and click **Reset all colors & icons**. Otherwise the metadata sits in `browser.storage.local` until cleared. Browser bookmarks themselves are untouched by uninstalling — they live in Firefox's native bookmark store.
-
-**Delete the cloned repo:**
-
-```bash
-rm -rf zenBookmarks
-```
-
 ### Updating
-
-To pull the latest changes after a previous clone:
 
 ```bash
 cd zenBookmarks
@@ -130,48 +96,82 @@ npm run build
 
 Reload the extension via `about:debugging` → **Reload** next to Zen Bookmarks.
 
+### Uninstalling
+
+**Temporary install (Option A or B):**
+
+1. Go to `about:debugging#/runtime/this-firefox`
+2. Find **Zen Bookmarks**
+3. Click **Remove**
+
+Or simply restart the browser.
+
+**Permanent install (Option C):**
+
+1. Go to `about:addons`
+2. Find **Zen Bookmarks**
+3. Click the `…` menu → **Remove**
+
+**Clean up stored metadata** (optional — custom icons, collapsed states):
+
+Before removing, open the options page and click **Reset all colors & icons**. Otherwise the metadata stays in `browser.storage.local` until cleared. Browser bookmarks themselves are untouched by uninstalling — they live in Firefox's native bookmark store.
+
+**Delete the cloned repo:**
+
+```bash
+rm -rf zenBookmarks
+```
+
 ---
 
 ## Usage
 
 ### Opening the Sidebar
 
-- Press `Alt+B` to toggle the sidebar
-- Or use Zen Browser's sidebar toggle button
+- Press `Cmd+B` (Mac) or `Alt+B` (other platforms) to toggle
+- Or click the sidebar icon in Zen's left strip and select **Zen Bookmarks**
 
 ### Managing Groups
 
 - Click **+ Group** in the toolbar to create a new group
-- **Right-click a group header** for options:
-  - **Rename** — change the group name
-  - **Change color** — pick from 14 preset colors
-  - **Add bookmark** — add a bookmark directly to this group
-  - **Delete group** — removes the folder (bookmarks become ungrouped)
-- Click a group header to collapse or expand it
+- Click a group header to collapse / expand it
+- **Drag a group header** onto another group's top or bottom edge to reorder
+- **Right-click a group header** for:
+  - **Rename**
+  - **Add bookmark** — adds directly into that group
+  - **Delete group** — removes the folder; bookmarks become ungrouped
 
 ### Managing Bookmarks
 
-- **Right-click a bookmark** for options:
-  - **Rename** — change the display title
-  - **Change icon** — search and select from ~90 Lucide icons
-  - **Reset to favicon** — revert to the site's favicon
-  - **Move to group** — reassign to a different group or ungrouped
-  - **Delete** — permanently removes the bookmark
 - Click a bookmark to open it in a new tab
+- **Drag a bookmark** onto a group header to move it into that group
+- **Drag a bookmark** onto the ungrouped divider to remove it from its group
+- **Right-click a bookmark** for:
+  - **Rename**
+  - **Change icon** — searchable Lucide icon picker
+  - **Reset to favicon** — only shown when a custom icon is set
+  - **Move to group** — submenu with all groups + Ungrouped
+  - **Delete**
 
 ### Settings Page
 
-Access via `about:addons` → Zen Bookmarks → **Preferences**, or the extension's options button.
+Access via `about:addons` → Zen Bookmarks → **Preferences**.
 
 - **Keyboard Shortcut** — shows the current shortcut; click the link to customize it in the Add-ons Manager
 - **Export as Markdown** — downloads your bookmarks as a `.md` file
-- **Reset all colors & icons** — clears stored metadata (colors, custom icons, collapsed states); your actual bookmarks are unaffected
+- **Reset all colors & icons** — clears stored metadata; your actual bookmarks are unaffected
 
 ### Customizing the Keyboard Shortcut
 
 1. Go to `about:addons`
 2. Click the gear icon → **Manage Extension Shortcuts**
 3. Find **Zen Bookmarks** and set your preferred key combination
+
+> Firefox-reserved Mac shortcuts (e.g. `Cmd+T`, `Cmd+W`, `Cmd+P`) cannot be reassigned. Manifest commands accept at most 2 modifiers + key (3 with Shift).
+
+### Hover-to-Expand Sidebar
+
+To make Zen's sidebar collapse and reveal on hover, enable Zen's built-in **Compact Mode**: `about:preferences#zenLooksFeel` → Sidebar → **Compact Mode**. This is a browser feature, not extension-controlled.
 
 ---
 
@@ -182,28 +182,28 @@ zenBookmarks/
 ├── manifest.json              # MV3 extension manifest
 ├── icons/
 │   └── icon-48.svg            # Extension icon
+├── fonts/                     # Bundled JetBrains Mono (woff2)
 ├── sidebar/
 │   ├── sidebar.html           # Sidebar entry point
 │   ├── sidebar.ts             # Mounts BookmarkView, listens to bookmark events
 │   └── sidebar.css            # All panel styles
 ├── options/
-│   ├── options.html           # Settings page
+│   ├── options.html           # Settings page (inline styles)
 │   └── options.ts             # Shortcut display, export, reset
 ├── src/
 │   ├── types.ts               # Bookmark, BookmarkGroup, PluginData interfaces
 │   ├── BookmarkStore.ts       # Async store over browser.bookmarks + storage APIs
-│   ├── BookmarkView.ts        # Vanilla DOM rendering (groups, bookmarks, menus)
+│   ├── BookmarkView.ts        # Vanilla DOM rendering, drag/drop, context menus
 │   ├── bookmarkTree.ts        # Converts Firefox bookmark tree to PluginData
 │   ├── icons.ts               # Lucide icon injection wrapper
-│   ├── ColorPickerModal.ts    # Native <dialog> color picker
 │   ├── IconPickerModal.ts     # Native <dialog> icon picker with search
-│   ├── MarkdownParser.ts      # Parse/serialize markdown (for export)
+│   ├── MarkdownParser.ts      # Parse/serialize markdown (used for export)
 │   └── globals.d.ts           # TypeScript browser global declaration
 ├── tests/
 │   ├── BookmarkStore.test.ts
 │   ├── bookmarkTree.test.ts
 │   └── MarkdownParser.test.ts
-└── dist/                      # Compiled output (committed for convenience)
+└── dist/                      # Compiled output (committed)
     ├── sidebar.js
     └── options.js
 ```
@@ -212,29 +212,23 @@ zenBookmarks/
 
 ## Data Storage
 
-Bookmark data (titles, URLs, folder structure) lives entirely in **Firefox's native bookmarks** — creating a group creates a real bookmark folder, and deleting a bookmark removes it from the browser too.
+Bookmark data (titles, URLs, folder structure, ordering) lives entirely in **Firefox's native bookmarks**. Creating a group creates a real bookmark folder; deleting a bookmark removes it from the browser too.
 
-Colors, custom icons, and collapsed states are stored separately in `browser.storage.local` under the key `zen_bookmarks_metadata`. This metadata is automatically cleaned up when the corresponding bookmark or folder is deleted.
+Custom icons and collapsed states are stored separately in `browser.storage.local` under the key `zen_bookmarks_metadata`. This metadata is automatically pruned when the corresponding bookmark or folder is deleted.
 
 ---
 
 ## Development
 
 ```bash
-# Run tests
-npm test
-
-# Watch mode
-npm run test:watch
-
-# Type check
-npx tsc -noEmit -skipLibCheck
-
-# Production build
-npm run build
+npm test              # Run vitest suite (42 tests)
+npm run test:watch    # Watch mode
+npx tsc -noEmit       # Type check only
+npm run build         # Production build (tsc check + esbuild bundle)
+npm run dev           # esbuild watch mode
 ```
 
-**Tech stack:** TypeScript, esbuild, Vitest, Lucide icons, Firefox WebExtension APIs (MV3)
+**Tech stack:** TypeScript, esbuild, Vitest, Lucide icons, JetBrains Mono, Firefox WebExtension APIs (MV3)
 
 ---
 
