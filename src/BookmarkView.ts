@@ -170,6 +170,19 @@ export class BookmarkView {
         { label: 'Add bookmark', icon: 'plus', onClick: () => openAddBookmarkPrompt(this.store, null) },
       ]);
     });
+    divider.addEventListener('dragover', (e) => {
+      if (!e.dataTransfer?.types.includes('application/x-zb-bookmark')) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      divider.classList.add('zb-drop-into');
+    });
+    divider.addEventListener('dragleave', () => divider.classList.remove('zb-drop-into'));
+    divider.addEventListener('drop', (e) => {
+      e.preventDefault();
+      divider.classList.remove('zb-drop-into');
+      const bookmarkId = e.dataTransfer?.getData('application/x-zb-bookmark');
+      if (bookmarkId) void this.store.moveBookmark(bookmarkId, null);
+    });
     this.container.appendChild(divider);
 
     for (const b of ungrouped) {
@@ -211,22 +224,33 @@ export class BookmarkView {
     });
     header.addEventListener('dragend', () => header.classList.remove('zb-dragging'));
     header.addEventListener('dragover', (e) => {
-      const draggedId = e.dataTransfer?.types.includes('application/x-zb-group');
-      if (!draggedId) return;
+      const types = e.dataTransfer?.types ?? [];
+      const isGroup = types.includes('application/x-zb-group');
+      const isBookmark = types.includes('application/x-zb-bookmark');
+      if (!isGroup && !isBookmark) return;
       e.preventDefault();
       if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+      if (isBookmark) {
+        header.classList.add('zb-drop-into');
+        return;
+      }
       const rect = header.getBoundingClientRect();
       const after = e.clientY > rect.top + rect.height / 2;
       header.classList.toggle('zb-drop-before', !after);
       header.classList.toggle('zb-drop-after', after);
     });
     header.addEventListener('dragleave', () => {
-      header.classList.remove('zb-drop-before', 'zb-drop-after');
+      header.classList.remove('zb-drop-before', 'zb-drop-after', 'zb-drop-into');
     });
     header.addEventListener('drop', (e) => {
       e.preventDefault();
+      header.classList.remove('zb-drop-before', 'zb-drop-after', 'zb-drop-into');
+      const bookmarkId = e.dataTransfer?.getData('application/x-zb-bookmark');
+      if (bookmarkId) {
+        void this.store.moveBookmark(bookmarkId, group.id);
+        return;
+      }
       const draggedId = e.dataTransfer?.getData('application/x-zb-group');
-      header.classList.remove('zb-drop-before', 'zb-drop-after');
       if (!draggedId || draggedId === group.id) return;
       const rect = header.getBoundingClientRect();
       const after = e.clientY > rect.top + rect.height / 2;
@@ -279,6 +303,15 @@ export class BookmarkView {
       e.preventDefault();
       this.showBookmarkContextMenu(e, bookmark);
     });
+
+    row.draggable = true;
+    row.dataset['bookmarkId'] = bookmark.id;
+    row.addEventListener('dragstart', (e) => {
+      e.dataTransfer?.setData('application/x-zb-bookmark', bookmark.id);
+      if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move';
+      row.classList.add('zb-dragging');
+    });
+    row.addEventListener('dragend', () => row.classList.remove('zb-dragging'));
 
     return row;
   }

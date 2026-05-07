@@ -125,6 +125,14 @@ body::-webkit-scrollbar { display: none; }
   box-shadow: inset 0 -3px 0 0 var(--zb-accent);
 }
 
+.ob-group-header.zb-drop-into,
+.ob-ungrouped-divider.zb-drop-into {
+  border-color: var(--zb-accent);
+  background-color: color-mix(in srgb, var(--zb-accent) 12%, transparent);
+}
+
+.ob-bookmark-item.zb-dragging { opacity: 0.45; }
+
 .ob-chevron {
   width: 14px;
   height: 14px;
