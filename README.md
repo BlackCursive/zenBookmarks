@@ -85,11 +85,14 @@ Sign up here (free, takes 1 minute): **[addons.mozilla.org/en-US/developers/](ht
 
 Go to **[addons.mozilla.org/en-US/developers/addon/api/key/](https://addons.mozilla.org/en-US/developers/addon/api/key/)** and click **Generate new credentials**.
 
-You will get:
-- **JWT issuer** (looks like `user:12345678:90`)
-- **JWT secret** (long hex string)
+You will get **two** values on the same page:
 
-Save both — the secret is shown only once.
+| Mozilla calls it | `web-ext` flag | Looks like |
+|---|---|---|
+| **JWT issuer** | `--api-key` | `user:12345678:90` |
+| **JWT secret** | `--api-secret` | long hex string |
+
+Save both — the secret is shown only once. The "issuer" field IS your api-key — they are the same value with different names.
 
 #### Step 3 — Clone, build, sign
 
