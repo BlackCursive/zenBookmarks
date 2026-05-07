@@ -1,7 +1,6 @@
 import type { BookmarkStore } from './BookmarkStore';
 import type { BookmarkGroup, Bookmark } from './types';
 import { injectIcon } from './icons';
-import { openColorPicker } from './ColorPickerModal';
 import { openIconPicker } from './IconPickerModal';
 
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -200,7 +199,6 @@ export class BookmarkView {
       e.preventDefault();
       showContextMenu(e, [
         { label: 'Rename', icon: 'pencil', onClick: () => openTextPrompt('Rename group', group.name, (val) => void this.store.renameGroup(group.id, val)) },
-        { label: 'Change color', icon: 'palette', onClick: () => openColorPicker((hex) => void this.store.setGroupColor(group.id, hex)) },
         { label: 'Add bookmark', icon: 'plus', onClick: () => openAddBookmarkPrompt(this.store, group.id) },
         'separator',
         { label: 'Delete group', icon: 'trash', onClick: () => openConfirmPrompt(`Delete group "${group.name}"?`, 'Bookmarks will become ungrouped.', () => void this.store.deleteGroup(group.id)) },
