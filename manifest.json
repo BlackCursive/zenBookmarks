@@ -15,7 +15,7 @@
     "_execute_sidebar_action": {
       "suggested_key": {
         "default": "Alt+B",
-        "mac": "MacCtrl+Alt+Shift+Command+B"
+        "mac": "Command+B"
       },
       "description": "Toggle Zen Bookmarks sidebar"
     }
