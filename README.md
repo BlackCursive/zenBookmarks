@@ -66,14 +66,32 @@ npm run dev
 
 ### Option C: Permanent Installation (Signed XPI)
 
-> **Why signing is required:** Standard Firefox releases (which Zen Browser is built on) hard-enforce extension signatures. The `xpinstall.signatures.required` `about:config` flag is **ignored** in stock Firefox/Zen — it only works in Developer Edition, Nightly, ESR with policy, or Unbranded builds. To permanently install in Zen, you must sign the XPI with a free Mozilla developer account.
+> ## ⚠️ REQUIRED — Permanent install needs a Mozilla developer account + JWT credentials
+>
+> **There is no `xpinstall.signatures.required` workaround.** Standard Firefox / Zen hard-enforces extension signing. Without signing, the only install path is the Temporary Add-on (Option A), which disappears every browser restart.
+>
+> To install permanently you **must**:
+> 1. Sign up for a free Mozilla developer account
+> 2. Generate JWT credentials
+> 3. Use those credentials with `web-ext sign` to produce a signed `.xpi`
+>
+> No public listing is created. Self-distributed (unlisted) channel keeps the extension private.
 
-**Prerequisites:**
+#### Step 1 — Create a Mozilla developer account
 
-- A free [addons.mozilla.org account](https://addons.mozilla.org/en-US/developers/)
-- Get your **JWT issuer** and **JWT secret** from [addons.mozilla.org/developers/addon/api/key](https://addons.mozilla.org/en-US/developers/addon/api/key/)
+Sign up here (free, takes 1 minute): **[addons.mozilla.org/en-US/developers/](https://addons.mozilla.org/en-US/developers/)**
 
-**Sign and install:**
+#### Step 2 — Generate JWT credentials
+
+Go to **[addons.mozilla.org/en-US/developers/addon/api/key/](https://addons.mozilla.org/en-US/developers/addon/api/key/)** and click **Generate new credentials**.
+
+You will get:
+- **JWT issuer** (looks like `user:12345678:90`)
+- **JWT secret** (long hex string)
+
+Save both — the secret is shown only once.
+
+#### Step 3 — Clone, build, sign
 
 ```bash
 git clone https://github.com/BlackCursive/zenBookmarks.git
@@ -81,7 +99,7 @@ cd zenBookmarks
 npm install
 npm run build
 
-# Sign as self-distributed (unlisted) — no public AMO listing
+# Replace YOUR_JWT_ISSUER and YOUR_JWT_SECRET with the values from Step 2
 npx web-ext sign \
   --api-key=YOUR_JWT_ISSUER \
   --api-secret=YOUR_JWT_SECRET \
@@ -90,17 +108,15 @@ npx web-ext sign \
   --ignore-files=node_modules tests src/*.ts esbuild.config.mjs tsconfig.json package*.json docs README.md .gitignore
 ```
 
-The signed `.xpi` will appear in `web-ext-artifacts/`.
+The signed `.xpi` will appear in `web-ext-artifacts/`. Mozilla's signing service usually returns within 30 seconds.
 
-Then in Zen:
+#### Step 4 — Install in Zen
 
 1. Go to `about:addons`
 2. Click the gear icon → **Install Add-on From File…**
-3. Select the signed `.xpi`
+3. Select the signed `.xpi` from `web-ext-artifacts/`
 
-**Alternative:** Submit to [addons.mozilla.org](https://addons.mozilla.org) for public listing — anyone can then install in one click without signing themselves.
-
-**Skip permanent install entirely:** Option A (Temporary Add-on) works without signing, but the extension is removed when the browser restarts. For daily use, sign once via Option C and forget about it.
+The extension is now permanent. It survives browser restarts and updates only when you re-sign a new build.
 
 ### Updating
 
