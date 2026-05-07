@@ -64,7 +64,28 @@ Then load `manifest.json` via `about:debugging` (steps 1–4 from Option A).
 npm run dev
 ```
 
-### Option C: Permanent Installation (Signed XPI)
+### Option D: Install the Pre-Signed XPI (BlackCursive personal build)
+
+> **This is a personal signed build.** The `zenBookmarks.xpi` file at the repo root was signed by the project author (BlackCursive) using their own Mozilla developer account. It is provided as-is for convenience — no warranty, no support guarantees. If you want to sign your own copy under your own identity, use Option C instead.
+
+```bash
+git clone https://github.com/BlackCursive/zenBookmarks.git
+cd zenBookmarks
+```
+
+Then in Zen:
+
+1. Go to `about:addons`
+2. Click the gear icon → **Install Add-on From File…**
+3. Select `zenBookmarks.xpi` from the cloned repo
+
+Or download `zenBookmarks.xpi` directly from the [GitHub repo](https://github.com/BlackCursive/zenBookmarks/blob/main/zenBookmarks.xpi) without cloning.
+
+The extension is permanent and survives browser restarts.
+
+---
+
+### Option C: Permanent Installation (Sign Your Own XPI)
 
 > ## ⚠️ REQUIRED — Permanent install needs a Mozilla developer account + JWT credentials
 >
