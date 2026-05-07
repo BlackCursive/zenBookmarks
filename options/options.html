@@ -4,6 +4,20 @@
   <meta charset="utf-8">
   <title>Zen Bookmarks Settings</title>
   <style>
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      src: url('../fonts/JetBrainsMono-Regular.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+      src: url('../fonts/JetBrainsMono-Bold.woff2') format('woff2');
+    }
     :root {
       color-scheme: light dark;
       --zb-text-normal: light-dark(#1c1c1c, #e6e6e6);
@@ -18,7 +32,7 @@
     }
     * { border-radius: 0 !important; box-sizing: border-box; }
     body {
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       background: var(--zb-bg-primary);
       color: var(--zb-text-normal);
       padding: 32px;

@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/JetBrainsMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/JetBrainsMono-Bold.woff2') format('woff2');
+}
+
 :root {
   color-scheme: light dark;
 
@@ -31,11 +47,16 @@ html, body {
 
 body {
   background: var(--zb-bg-primary);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   color: var(--zb-text-normal);
   font-size: 13px;
   overflow-y: auto;
+  scrollbar-width: none;
 }
+
+body::-webkit-scrollbar { display: none; }
+.ob-icon-grid { scrollbar-width: none; }
+.ob-icon-grid::-webkit-scrollbar { display: none; }
 
 /* Toolbar */
 .zb-toolbar {
@@ -99,13 +120,6 @@ body {
   flex-shrink: 0;
   display: flex;
   align-items: center;
-}
-
-.ob-group-dot {
-  width: 9px;
-  height: 9px;
-  background: var(--group-color);
-  flex-shrink: 0;
 }
 
 .ob-group-name {
@@ -390,12 +404,6 @@ button.mod-warning:hover {
 /* SVG icons */
 svg { display: block; }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: var(--zb-border);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
-::-webkit-scrollbar-thumb:hover { background: var(--zb-border-strong); background-clip: padding-box; }
+/* Scrollbars hidden (overflow still works) */
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; }

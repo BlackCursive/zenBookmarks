@@ -186,14 +186,11 @@ export class BookmarkView {
     const chevron = el('div', 'ob-chevron');
     injectIcon(chevron, group.collapsed ? 'chevron-right' : 'chevron-down');
 
-    const dot = el('div', 'ob-group-dot');
-    dot.style.backgroundColor = group.color;
-
     const name = el('div', 'ob-group-name', group.name);
     const members = allBookmarks.filter(b => b.groupId === group.id).sort((a, b) => a.order - b.order);
     const count = el('div', 'ob-group-count', String(members.length));
 
-    header.append(chevron, dot, name, count);
+    header.append(chevron, name, count);
     header.addEventListener('click', () => void this.store.setGroupCollapsed(group.id, !group.collapsed));
     header.addEventListener('contextmenu', (e) => {
       e.preventDefault();
