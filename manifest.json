@@ -3,6 +3,12 @@
   "name": "Zen Bookmarks",
   "version": "1.0.0",
   "description": "Sidebar bookmark panel with grouped, color-coded, collapsible sections",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "zen-bookmarks@blackcursive.local",
+      "strict_min_version": "115.0"
+    }
+  },
   "permissions": ["bookmarks", "storage", "tabs"],
   "sidebar_action": {
     "default_panel": "sidebar/sidebar.html",
