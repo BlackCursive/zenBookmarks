@@ -64,24 +64,43 @@ Then load `manifest.json` via `about:debugging` (steps 1–4 from Option A).
 npm run dev
 ```
 
-### Option C: Permanent Installation (Unsigned)
+### Option C: Permanent Installation (Signed XPI)
 
-Firefox-based browsers require signed extensions for permanent install unless you disable signature enforcement.
+> **Why signing is required:** Standard Firefox releases (which Zen Browser is built on) hard-enforce extension signatures. The `xpinstall.signatures.required` `about:config` flag is **ignored** in stock Firefox/Zen — it only works in Developer Edition, Nightly, ESR with policy, or Unbranded builds. To permanently install in Zen, you must sign the XPI with a free Mozilla developer account.
+
+**Prerequisites:**
+
+- A free [addons.mozilla.org account](https://addons.mozilla.org/en-US/developers/)
+- Get your **JWT issuer** and **JWT secret** from [addons.mozilla.org/developers/addon/api/key](https://addons.mozilla.org/en-US/developers/addon/api/key/)
+
+**Sign and install:**
 
 ```bash
 git clone https://github.com/BlackCursive/zenBookmarks.git
 cd zenBookmarks
+npm install
+npm run build
+
+# Sign as self-distributed (unlisted) — no public AMO listing
+npx web-ext sign \
+  --api-key=YOUR_JWT_ISSUER \
+  --api-secret=YOUR_JWT_SECRET \
+  --channel=unlisted \
+  --source-dir=. \
+  --ignore-files=node_modules tests src/*.ts esbuild.config.mjs tsconfig.json package*.json docs README.md .gitignore
 ```
 
-Then:
+The signed `.xpi` will appear in `web-ext-artifacts/`.
 
-1. Open `about:config` in Zen Browser
-2. Search for `xpinstall.signatures.required` and set it to `false`
-3. Package the extension:
-   ```bash
-   zip -r zen-bookmarks.xpi manifest.json dist/ sidebar/ options/ icons/ fonts/ src/
-   ```
-4. Drag and drop `zen-bookmarks.xpi` onto the browser window, or go to `about:addons` → gear icon → **Install Add-on From File**
+Then in Zen:
+
+1. Go to `about:addons`
+2. Click the gear icon → **Install Add-on From File…**
+3. Select the signed `.xpi`
+
+**Alternative:** Submit to [addons.mozilla.org](https://addons.mozilla.org) for public listing — anyone can then install in one click without signing themselves.
+
+**Skip permanent install entirely:** Option A (Temporary Add-on) works without signing, but the extension is removed when the browser restarts. For daily use, sign once via Option C and forget about it.
 
 ### Updating
 
