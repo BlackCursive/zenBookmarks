@@ -298,7 +298,7 @@ export class BookmarkView {
 
     const title = el('div', 'ob-bookmark-title', bookmark.title);
     row.append(iconEl, title);
-    row.addEventListener('click', () => window.open(bookmark.url, '_blank'));
+    row.addEventListener('click', () => { void browser.tabs.create({ url: bookmark.url }); });
     row.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       this.showBookmarkContextMenu(e, bookmark);

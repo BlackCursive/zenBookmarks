@@ -3,13 +3,90 @@ import { serializeToMarkdown } from '../src/MarkdownParser';
 import type { MetadataStore } from '../src/BookmarkStore';
 import { METADATA_KEY } from '../src/BookmarkStore';
 
+const COMMAND_NAME = '_execute_sidebar_action';
+const IS_MAC = navigator.platform.toLowerCase().includes('mac');
+const DEFAULT_SHORTCUT = IS_MAC ? 'Command+L' : 'Alt+L';
+
+const FUNCTION_KEYS = new Set(['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12']);
+const NAMED_KEYS: Record<string, string> = {
+  ' ': 'Space', 'ArrowUp': 'Up', 'ArrowDown': 'Down', 'ArrowLeft': 'Left', 'ArrowRight': 'Right',
+  'Insert': 'Insert', 'Delete': 'Delete', 'Home': 'Home', 'End': 'End',
+  'PageUp': 'PageUp', 'PageDown': 'PageDown', 'Tab': 'Tab', 'Enter': 'Return',
+  ',': 'Comma', '.': 'Period',
+};
+
+function eventToShortcut(e: KeyboardEvent): string | null {
+  const parts: string[] = [];
+  if (e.ctrlKey) parts.push(IS_MAC ? 'MacCtrl' : 'Ctrl');
+  if (e.metaKey) parts.push('Command');
+  if (e.altKey) parts.push('Alt');
+  if (e.shiftKey) parts.push('Shift');
+
+  const k = e.key;
+  if (['Control', 'Meta', 'Alt', 'Shift'].includes(k)) return null;
+
+  let keyPart: string;
+  if (FUNCTION_KEYS.has(k)) keyPart = k;
+  else if (NAMED_KEYS[k]) keyPart = NAMED_KEYS[k];
+  else if (/^[a-zA-Z]$/.test(k)) keyPart = k.toUpperCase();
+  else if (/^[0-9]$/.test(k)) keyPart = k;
+  else return null;
+
+  const isFnKey = FUNCTION_KEYS.has(keyPart);
+  if (parts.length === 0 && !isFnKey) return null;
+
+  parts.push(keyPart);
+  return parts.join('+');
+}
+
 async function init(): Promise<void> {
-  const shortcutEl = document.getElementById('shortcut')!;
+  const inputEl = document.getElementById('shortcut-input') as HTMLInputElement;
+  const resetBtn = document.getElementById('shortcut-reset')!;
+  const defaultLabel = document.getElementById('shortcut-default-label')!;
   const statusEl = document.getElementById('status')!;
 
-  const commands = await browser.commands.getAll();
-  const cmd = commands.find(c => c.name === '_execute_sidebar_action');
-  shortcutEl.textContent = cmd?.shortcut ?? 'Not set';
+  defaultLabel.textContent = DEFAULT_SHORTCUT;
+
+  async function refresh(): Promise<void> {
+    const commands = await browser.commands.getAll();
+    const cmd = commands.find(c => c.name === COMMAND_NAME);
+    inputEl.value = cmd?.shortcut ?? '';
+    inputEl.placeholder = cmd?.shortcut ? '' : 'Click here, then press keys';
+  }
+
+  await refresh();
+
+  inputEl.addEventListener('keydown', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const shortcut = eventToShortcut(e);
+    if (!shortcut) return;
+    void (async () => {
+      try {
+        await browser.commands.update({ name: COMMAND_NAME, shortcut });
+        inputEl.value = shortcut;
+        statusEl.textContent = `Shortcut set to ${shortcut}.`;
+      } catch (err) {
+        statusEl.textContent = `Failed to set shortcut: ${String(err)}`;
+      }
+    })();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    void (async () => {
+      try {
+        if (typeof browser.commands.reset === 'function') {
+          await browser.commands.reset(COMMAND_NAME);
+        } else {
+          await browser.commands.update({ name: COMMAND_NAME, shortcut: DEFAULT_SHORTCUT });
+        }
+        await refresh();
+        statusEl.textContent = `Shortcut reset to ${DEFAULT_SHORTCUT}.`;
+      } catch (err) {
+        statusEl.textContent = `Reset failed: ${String(err)}`;
+      }
+    })();
+  });
 
   document.getElementById('addons-link')!.addEventListener('click', (e) => {
     e.preventDefault();

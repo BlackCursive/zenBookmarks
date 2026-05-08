@@ -60,6 +60,20 @@
       font-family: ui-monospace, Menlo, monospace;
       color: var(--zb-text-normal);
     }
+    #shortcut-input {
+      background: var(--zb-bg-surface);
+      border: 1.5px solid var(--zb-border);
+      color: var(--zb-text-normal);
+      padding: 7px 12px;
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 13px;
+      width: 240px;
+      margin-right: 8px;
+      outline: none;
+      caret-color: transparent;
+    }
+    #shortcut-input:focus { border-color: var(--zb-accent); }
+    #shortcut-hint { font-size: 11.5px; color: var(--zb-text-muted); margin-top: 6px; }
     a { color: var(--zb-accent); font-size: 13px; text-decoration: none; }
     a:hover { text-decoration: underline; }
     button {
@@ -83,8 +97,10 @@
   <h1>Zen Bookmarks</h1>
 
   <h2>Keyboard Shortcut</h2>
-  <p>Current shortcut: <span class="shortcut-value" id="shortcut">Loading…</span></p>
-  <p><a href="about:addons" id="addons-link">Change in Add-ons Manager →</a></p>
+  <p>Click the field, then press the keys you want. Modifier required (Ctrl/Alt/Cmd/MacCtrl) plus a key.</p>
+  <input id="shortcut-input" readonly placeholder="Click here, then press keys">
+  <button id="shortcut-reset">Reset to default</button>
+  <div id="shortcut-hint">Default: <span id="shortcut-default-label"></span>. If your browser blocks in-page binding, use <a href="about:addons" id="addons-link">Add-ons Manager</a>.</div>
 
   <h2>Data</h2>
   <p>Colors and custom icons are stored separately from your browser bookmarks.</p>
