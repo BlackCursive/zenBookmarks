@@ -5,7 +5,7 @@ import { METADATA_KEY } from '../src/BookmarkStore';
 
 const COMMAND_NAME = '_execute_sidebar_action';
 const IS_MAC = navigator.platform.toLowerCase().includes('mac');
-const DEFAULT_SHORTCUT = IS_MAC ? 'Command+L' : 'Alt+L';
+const DEFAULT_SHORTCUT = IS_MAC ? 'Command+Shift+B' : 'Alt+B';
 
 const FUNCTION_KEYS = new Set(['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12']);
 const NAMED_KEYS: Record<string, string> = {

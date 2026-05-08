@@ -1,0 +1,23 @@
+module.exports = {
+  ignoreFiles: [
+    'src/**',
+    'tests/**',
+    'docs/**',
+    'sidebar/*.ts',
+    'options/*.ts',
+    'node_modules/**',
+    'web-ext-artifacts/**',
+    'package.json',
+    'package-lock.json',
+    'tsconfig.json',
+    'esbuild.config.mjs',
+    'web-ext-config.cjs',
+    'README.md',
+    '.env',
+    '.env.example',
+    '.env.local',
+    '.amo-upload-uuid',
+    '.gitignore',
+    'zenBookmarks.xpi',
+  ],
+};

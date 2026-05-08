@@ -1,13 +1,16 @@
 {
   "manifest_version": 3,
   "name": "Zen Bookmarks",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Sidebar bookmark panel with grouped, color-coded, collapsible sections",
   "browser_specific_settings": {
     "gecko": {
       "id": "zen-bookmarks@blackcursive.local",
       "strict_min_version": "115.0"
     }
+  },
+  "icons": {
+    "48": "icons/icon-48.svg"
   },
   "permissions": ["bookmarks", "storage", "tabs"],
   "sidebar_action": {
@@ -20,8 +23,8 @@
   "commands": {
     "_execute_sidebar_action": {
       "suggested_key": {
-        "default": "Alt+L",
-        "mac": "Command+L"
+        "default": "Alt+B",
+        "mac": "Command+Shift+B"
       },
       "description": "Toggle Zen Bookmarks sidebar"
     }
