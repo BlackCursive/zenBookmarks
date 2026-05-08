@@ -3,3 +3,7 @@ node_modules/
 *.log
 .vite/
 .vitest-cache/
+.env
+.env.local
+.amo-upload-uuid
+web-ext-artifacts/

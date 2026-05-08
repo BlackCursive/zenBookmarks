@@ -1,11 +1,12 @@
 {
   "name": "zen-bookmarks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sidebar bookmark panel for Zen Browser",
   "type": "module",
   "scripts": {
     "dev": "node esbuild.config.mjs",
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "sign": "set -a && . ./.env && set +a && web-ext sign --channel=unlisted",
     "test": "vitest run",
     "test:watch": "vitest"
   },

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Zen Bookmarks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sidebar bookmark panel with grouped, color-coded, collapsible sections",
   "browser_specific_settings": {
     "gecko": {
