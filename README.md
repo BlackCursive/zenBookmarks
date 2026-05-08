@@ -43,7 +43,7 @@ Then load it in the browser:
 3. Navigate to the cloned `zenBookmarks/` folder and select `manifest.json`
 4. The **Zen Bookmarks** entry will appear in the left sidebar's panel list
 
-> **Note:** Temporary add-ons are removed when the browser restarts. For a persistent install, see Option C.
+> **Note:** Temporary add-ons are removed when the browser restarts. For a persistent install, see Option C or D.
 
 ### Option B: Build from Source
 
@@ -63,27 +63,6 @@ Then load `manifest.json` via `about:debugging` (steps 1–4 from Option A).
 ```bash
 npm run dev
 ```
-
-### Option D: Install the Pre-Signed XPI (BlackCursive personal build)
-
-> **This is a personal signed build.** The `zenBookmarks.xpi` file at the repo root was signed by the project author (BlackCursive) using their own Mozilla developer account. It is provided as-is for convenience — no warranty, no support guarantees. If you want to sign your own copy under your own identity, use Option C instead.
-
-```bash
-git clone https://github.com/BlackCursive/zenBookmarks.git
-cd zenBookmarks
-```
-
-Then in Zen:
-
-1. Go to `about:addons`
-2. Click the gear icon → **Install Add-on From File…**
-3. Select `zenBookmarks.xpi` from the cloned repo
-
-Or download `zenBookmarks.xpi` directly from the [GitHub repo](https://github.com/BlackCursive/zenBookmarks/blob/main/zenBookmarks.xpi) without cloning.
-
-The extension is permanent and survives browser restarts.
-
----
 
 ### Option C: Permanent Installation (Sign Your Own XPI)
 
@@ -142,6 +121,25 @@ The signed `.xpi` will appear in `web-ext-artifacts/`. Mozilla's signing service
 
 The extension is now permanent. It survives browser restarts and updates only when you re-sign a new build.
 
+### Option D: Install the Pre-Signed XPI (BlackCursive personal build)
+
+> **This is a personal signed build.** The `zenBookmarks.xpi` file at the repo root was signed by the project author (BlackCursive) using their own Mozilla developer account. It is provided as-is for convenience — no warranty, no support guarantees. If you want to sign your own copy under your own identity, use Option C instead.
+
+```bash
+git clone https://github.com/BlackCursive/zenBookmarks.git
+cd zenBookmarks
+```
+
+Then in Zen:
+
+1. Go to `about:addons`
+2. Click the gear icon → **Install Add-on From File…**
+3. Select `zenBookmarks.xpi` from the cloned repo
+
+Or download `zenBookmarks.xpi` directly from the [GitHub repo](https://github.com/BlackCursive/zenBookmarks/blob/main/zenBookmarks.xpi) without cloning.
+
+The extension is permanent and survives browser restarts.
+
 ### Updating
 
 ```bash
@@ -165,7 +163,7 @@ Reload the extension via `about:debugging` → **Reload** next to Zen Bookmarks.
 
 Or simply restart the browser.
 
-**Permanent install (Option C):**
+**Permanent install (Option C or D):**
 
 1. Go to `about:addons`
 2. Find **Zen Bookmarks**
@@ -206,6 +204,7 @@ rm -rf zenBookmarks
 - **Drag a bookmark** onto a group header to move it into that group
 - **Drag a bookmark** onto the ungrouped divider to remove it from its group
 - **Right-click a bookmark** for:
+  - **Open in new tab**
   - **Rename**
   - **Change icon** — searchable Lucide icon picker
   - **Reset to favicon** — only shown when a custom icon is set
